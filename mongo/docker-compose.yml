@@ -1,0 +1,55 @@
+version: '3'
+services:
+  mongo:
+    hostname: mongo
+    container_name: localmongo
+    image: mongo:${MONGODB_VERSION}
+    expose:
+      - 27017
+    volumes:
+      - ./scripts:/scripts
+    restart: always
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+  mongo2:
+    hostname: mongo2
+    container_name: localmongo2
+    image: mongo:${MONGODB_VERSION}
+    depends_on:
+      - mongo
+    expose:
+      - 27017
+    restart: always
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+  mongo3:
+    hostname: mongo3
+    container_name: localmongo3
+    image: mongo:${MONGODB_VERSION}
+    depends_on:
+      - mongo
+    expose:
+      - 27017
+    restart: always
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+  mongosetup:
+    image: mongo:${MONGODB_VERSION}
+    depends_on:
+      - mongo
+      - mongo2
+      - mongo3
+    volumes:
+      - ./scripts:/scripts
+    restart: always
+    entrypoint: ["bash", "/scripts/mongosetup.sh"]
+  mongo-express:
+    image: mongo-express
+    depends_on:
+      - mongo
+      - mongo2
+      - mongo3
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo,mongo2,mongo3
+      ME_CONFIG_OPTIONS_EDITORTHEME: bespin
+
