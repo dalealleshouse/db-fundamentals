@@ -1,0 +1,47 @@
+{
+  "name": "okr_api",
+  "version": "0.0.1",
+  "description": "Simple REST service for managing OKR data",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run build:live",
+    "build": "tsc -p .",
+    "build:live": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
+    "test": "mocha --reporter spec --require ts-node/register 'test/**/*.test.ts'",
+    "test:watch": "mocha --reporter spec --watch --watch-extensions ts --require ts-node/register 'test/**/*.test.ts'"
+  },
+  "author": "Dale Alleshouse",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "nodemon": "^1.19.0",
+    "pg": "^7.10.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/express": "^4.16.1",
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^12.0.0",
+    "@types/pg": "^7.4.14",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^6.1.4",
+    "prettier": "^1.17.0",
+    "ts-node": "^8.1.0",
+    "typescript": "^3.4.5"
+  },
+  "nodemonConfig": {
+    "restartable": "rs",
+    "ignore": ["node_modules/**/node_modules"],
+    "delay": "2500",
+    "env": {
+      "NODE_ENV": "development",
+      "PORT": 5001,
+      "POSTGRES_USER": "super_user",
+      "POSTGRES_PASS": "super_password",
+      "POSTGRES_HOST": "localhost",
+      "POSTGRES_PORT": "5432",
+      "POSTGRES_DB": "okr"
+    }
+  }
+}
