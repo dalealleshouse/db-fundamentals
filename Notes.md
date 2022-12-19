@@ -1,3 +1,7 @@
+# Other important theroms
+- FLP Impossiblity
+- CALM
+
 # NoSQL, No Problem
 
 NoSQL vs. RDBMS
